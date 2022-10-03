@@ -3,6 +3,11 @@ import React, { useState, useEffect } from "react";
 import TinderCard from "react-tinder-card";
 
 import { AiOutlineHeart } from "react-icons/ai";
+import {
+  BsArrowRight,
+  BsFillHandThumbsUpFill,
+  BsFillHandThumbsDownFill,
+} from "react-icons/bs";
 
 const nfts = [
   {
@@ -47,9 +52,6 @@ export const CardStack = () => {
   };
 
   return (
-
-
-
     <div className="mt-6">
       {nfts.map((nft) => (
         <TinderCard
@@ -69,11 +71,25 @@ export const CardStack = () => {
               size={60}
               className="absolute m-3 bg-[#F7F6F9] rounded-full right-0 text-red-500 p-4 hover:bg-red-500 hover:text-white transition-all duration-200"
             />
-            <div className="flex items-center">
-              <h1 className="absolute bottom-0 glossy p-2 semibold text-white mb-4 ml-4">
-                {nft.name}
-              </h1>
+
+            <h1 className="semibold glossy absolute top-0 mt-5 ml-4 text-xl text-white p-2">{nft.name}</h1>
+            <div className="w-full flex items-start flex-col absolute bottom-0 left-0  p-3  mb-4">
+              <div className="flex items-center justify-between w-full mt-6">
+                <div className=" group rounded-full bg-white p-4 flex justify-center hover:bg-[#74d6a1] transition-all duration-200 ">
+                  <BsFillHandThumbsDownFill
+                    size={30}
+                    className="text-[#75d6a1] group-hover:text-white "
+                  />
+                </div>
+                <div className="group rounded-full bg-white p-4 flex justify-center hover:bg-[#74d6a1] transition-all duration-200">
+                  <BsFillHandThumbsUpFill
+                    size={30}
+                    className="text-[#75d6a1] group-hover:text-white "
+                  />
+                </div>
+              </div>
             </div>
+            <div className="absolute bottom-0 flex justify-between w-full pl-6 pr-6 pb-6"></div>
           </div>
         </TinderCard>
       ))}
