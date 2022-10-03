@@ -1,3 +1,72 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@font-face {
+  font-family: poppins-light;
+  src: url("./assets/fonts/poppins/Poppins-Light.otf");
+}
+@font-face {
+  font-family: poppins-semibold;
+  src: url("./assets/fonts/poppins/Poppins-SemiBold.otf");
+}
+
+.semibold {
+  font-family: poppins-semibold;
+  src: url("./assets/fonts/poppins/Poppins-SemiBold.otf");
+}
+
+html {
+  text-overflow: ellipsis;
+}
+body {
+  font-family: poppins-light;
+}
+
+.active-navItem {
+  width: 100%;
+  background-color: black;
+  transition: ease;
+  transition-duration: 500ms;
+}
+
+.active-navItem i {
+  padding-right: 1vw;
+  color: #75d6a1;
+}
+
+.active-navItem p {
+  padding-right: 1vw;
+  font-family: poppins-semibold;
+  color: white;
+}
+
+.inactive-navItem {
+  width: 15%;
+  background-color: white;
+}
+
+.inactive-navItem p {
+  overflow: hidden;
+}
+
+.glossy {
+  /* From https://css.glass */
+  background: rgba(12, 12, 12, 0.22);
+  border-radius: 13px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(10.7px);
+  -webkit-backdrop-filter: blur(10.7px);
+  border: 1px solid rgba(12, 12, 12, 0.21);
+}
+
+.swipe {
+  position: absolute;
+ 
+}
+
+@media (min-width: 640px) {
+  .inactive-navItem {
+    width: 25%;
+  }
+}
