@@ -11,9 +11,19 @@
   src: url("./assets/fonts/poppins/Poppins-SemiBold.otf");
 }
 
+@font-face {
+  font-family: poppins-bold;
+  src: url("./assets/fonts/poppins/Poppins-Bold.otf");
+}
+
 .semibold {
   font-family: poppins-semibold;
   src: url("./assets/fonts/poppins/Poppins-SemiBold.otf");
+}
+
+.bold {
+  font-family: poppins-bold;
+  src: url("./assets/fonts/poppins/Poppins-Bold.otf");
 }
 
 html {

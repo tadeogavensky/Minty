@@ -11,16 +11,10 @@ import { useEffect } from "react";
 export const Header = (props) => {
   const [clip, setClip] = useState("");
 
-  const copy = (str) => {
-   /*  if (navigator && navigator.clipboard && navigator.clipboard.writeText)
-        return navigator.clipboard.writeText(str);
-      return Promise.reject('The Clipboard API is not available.'); */
-  };
-
-
+  const [user, setUser] = useState(null);
 
   return (
-    <div className="flex items-center justify-between  pt-8">
+    <div className="flex items-center justify-between pt-8">
       <div className=" w-[70px] h-[70px] rounded-full bg-white">
         {/* <img src={props.profile_photo} alt="" /> */}
         <img
@@ -30,15 +24,30 @@ export const Header = (props) => {
         />
       </div>
 
-      <div
-        className="w-[200px] bg-white rounded-full flex items-center px-4 transition-all duration-300 hover:bg-gray-400 cursor-default"
-        /* onClick={copy(document.getElementById("wallet").textContent)} */
-      >
-        <p id="wallet" className="truncate font-semibold">
-          {props.address}
-        </p>
-        <AiOutlineCopy size={50} />
-      </div>
+      {user == null ? (
+        <button>
+          <div
+            className=" px-4 py-6 group bg-white rounded-full flex items-center ease-out duration-300 hover:bg-[#74D6a1]"
+            /* onClick={copy(document.getElementById("wallet").textContent)} */
+          >
+            <p className="font-semibold group-hover:text-white">
+              Connect to Wallet
+            </p>
+          </div>
+        </button>
+      ) : (
+        <button>
+          <div
+            className="w-[200px] bg-white rounded-full flex items-center px-4 transition-all duration-300 hover:bg-gray-400"
+            /* onClick={copy(document.getElementById("wallet").textContent)} */
+          >
+            <p id="wallet" className="truncate font-semibold">
+              {props.address}
+            </p>
+            <AiOutlineCopy size={50} />
+          </div>
+        </button>
+      )}
     </div>
   );
 };
