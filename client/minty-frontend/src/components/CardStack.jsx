@@ -75,7 +75,7 @@ export const CardStack = () => {
   const [lastDirection, setLastDirection] = useState();
   const [review, setReview] = useState();
 
-  const isSwiping = useRef(false)
+  const [isSwiping, setIsSwiping] = useState(false);
 
   console.log("ld", lastDirection);
 
@@ -101,7 +101,7 @@ export const CardStack = () => {
   const swiped = (direction, index) => {
     setLastDirection(direction);
     direction == "right" ? setReview("like") : setReview("dislike");
-    
+
     updateCurrentIndex(index - 1);
   };
 
@@ -113,13 +113,20 @@ export const CardStack = () => {
   const Expand = () => {
     let meta = document.getElementById("meta");
     let cardImg = document.getElementById("cardImg");
+    console.log("isSwiping :>> ", isSwiping);
 
-    if (meta.classList.contains("expanded")) {
-      meta.classList.remove("expanded");
+    if (!isSwiping) {
+      if (meta.classList.contains("expanded")) {
+        meta.classList.remove("expanded");
+      } else {
+        meta.classList.add("expanded");
+      }
     } else {
-      meta.classList.add("expanded");
+      setIsSwiping(true);
     }
   };
+
+  
 
   return (
     <div className="mt-6">
@@ -133,14 +140,6 @@ export const CardStack = () => {
           <div
             id="card"
             className="flex flex-col items-center rounded-2xl relative bg-white mb-4 sm:w-[300px]"
-            onTouchStart={() => {
-              Expand();
-            }}
-            onClick={() => {
-              if(isSwiping.current){
-                Expand();
-              }
-            }}
           >
             <div className="relative">
               <img
@@ -149,12 +148,22 @@ export const CardStack = () => {
                 alt=""
                 className="object-cover w-full h-full relative shadow-md rounded-2xl "
               />
-              <div className="w-[75%]  items-start absolute bottom-0 right-0 p-3 ">
-                <NavLink to={`/${nft.wallet}/` + nft.id} className="mr-6">
-                  <button className="group flex items-center justify-between rounded-full w-full font-semibold p-4 bg-white hover:bg-black hover:text-white transition-all duration-300 ">
-                    View <BsArrowRight size={30} />
-                  </button>
-                </NavLink>
+              <div className="w-[65%]  items-start absolute bottom-0 right-0 p-3 ">
+
+
+
+                <button
+                 /*  onClick={() => {
+                    Expand();
+                  }} */
+                  onTouchStart={() => {
+                    Expand();
+                  }}
+                  className="group flex items-center justify-between rounded-full w-full font-semibold p-4 bg-white focus:bg-black focus:text-white transition-all duration-300 "
+                >
+                  View more
+                  <BsArrowRight size={30} />
+                </button>
               </div>
             </div>
             <button className="absolute right-0">

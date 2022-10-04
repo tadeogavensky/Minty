@@ -91,6 +91,6 @@ body {
 
 
 .expanded{
-  @apply h-full shadow-md pt-4 ;
+  @apply h-full shadow-md pt-4 rounded-t-2xl ;
 }
 
