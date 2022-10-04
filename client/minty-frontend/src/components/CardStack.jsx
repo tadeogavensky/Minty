@@ -8,6 +8,7 @@ import {
   BsFillHandThumbsUpFill,
   BsFillHandThumbsDownFill,
   BsTags,
+  BsKeyFill,
 } from "react-icons/bs";
 import { BiWallet } from "react-icons/bi";
 
@@ -72,7 +73,14 @@ const nfts = [
 export const CardStack = () => {
   const [currentIndex, setCurrentIndex] = useState(nfts.length - 1);
   const [lastDirection, setLastDirection] = useState();
-  // used for outOfFrame closure
+  const [review, setReview] = useState();
+
+  const isSwiping = useRef(false)
+
+  console.log("ld", lastDirection);
+
+  console.log("review", review);
+
   const currentIndexRef = useRef(currentIndex);
 
   const childRefs = useMemo(
@@ -83,17 +91,17 @@ export const CardStack = () => {
     []
   );
 
-  console.log("lastDirection :>> ", lastDirection);
-
   const updateCurrentIndex = (val) => {
     setCurrentIndex(val);
     currentIndexRef.current = val;
   };
 
-  const canSwipe = currentIndex >= 0;
+  /*   const canSwipe = currentIndex >= 0; */
 
-  const swiped = (direction, nameToDelete, index) => {
+  const swiped = (direction, index) => {
     setLastDirection(direction);
+    direction == "right" ? setReview("like") : setReview("dislike");
+    
     updateCurrentIndex(index - 1);
   };
 
@@ -106,17 +114,11 @@ export const CardStack = () => {
     let meta = document.getElementById("meta");
     let cardImg = document.getElementById("cardImg");
 
-
-    if (meta.classList.contains("expanded") ) {
+    if (meta.classList.contains("expanded")) {
       meta.classList.remove("expanded");
-     
-     
     } else {
       meta.classList.add("expanded");
-     
     }
-
-    console.log('click card')
   };
 
   return (
@@ -131,8 +133,13 @@ export const CardStack = () => {
           <div
             id="card"
             className="flex flex-col items-center rounded-2xl relative bg-white mb-4 sm:w-[300px]"
-            onClick={() => {
+            onTouchStart={() => {
               Expand();
+            }}
+            onClick={() => {
+              if(isSwiping.current){
+                Expand();
+              }
             }}
           >
             <div className="relative">
