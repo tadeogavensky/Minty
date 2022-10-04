@@ -1,17 +1,60 @@
-import React from "react";
+import { ethers } from "ethers";
+import React, { useContext, useState, useEffect } from "react";
 import PropTypes from "prop-types";
 
 import photo from "../assets/img/profile.jpg";
 
 import { CgMenuGridO } from "react-icons/cg";
 import { AiOutlineCopy } from "react-icons/ai";
-import { useState } from "react";
-import { useEffect } from "react";
+
+import UserContext from "../App";
 
 export const Header = (props) => {
-  const [clip, setClip] = useState("");
+  /* const userContext = useContext(UserContext); */
+
+/*   const [data, setdata] = useState({
+    address: "",
+    Balance: null,
+  });
+ */
+  const [account, setAccount] = useState();
+
+
 
   const [user, setUser] = useState(null);
+
+  const Connect = async () => {
+   const provider =new ethers.providers.Web3Provider(window.ethereum)
+   setAccount(await provider.send("eth_requestAccounts",[]))
+   console.log('account', account)
+  };
+
+ /*  const getbalance = (address) => {
+    window.ethereum
+      .request({
+        method: "eth_getBalance",
+        params: [address, "latest"],
+      })
+      .then((balance) => {
+        setdata({
+          
+          Balance: ethers.utils.formatEther(balance),
+        });
+      });
+  };
+
+  const accountChangeHandler = (account) => {
+    setdata({
+      address: account,
+    });
+  
+
+    getbalance(account);
+
+  
+    console.log( getbalance(account))
+
+  }; */
 
   return (
     <div className="flex items-center justify-between pt-8">
@@ -25,11 +68,12 @@ export const Header = (props) => {
       </div>
 
       {user == null ? (
-        <button>
-          <div
-            className=" px-4 py-6 group bg-white rounded-full flex items-center ease-out duration-300 hover:bg-[#74D6a1]"
-            /* onClick={copy(document.getElementById("wallet").textContent)} */
-          >
+        <button
+          onClick={() => {
+            Connect();
+          }}
+        >
+          <div className=" px-4 py-6 group bg-white rounded-full flex items-center ease-out duration-300 hover:bg-[#74D6a1]">
             <p className="font-semibold group-hover:text-white">
               Connect to Wallet
             </p>
@@ -37,10 +81,7 @@ export const Header = (props) => {
         </button>
       ) : (
         <button>
-          <div
-            className="w-[200px] bg-white rounded-full flex items-center px-4 transition-all duration-300 hover:bg-gray-400"
-            /* onClick={copy(document.getElementById("wallet").textContent)} */
-          >
+          <div className="w-[200px] bg-white rounded-full flex items-center px-4 transition-all duration-300 hover:bg-gray-400">
             <p id="wallet" className="truncate font-semibold">
               {props.address}
             </p>

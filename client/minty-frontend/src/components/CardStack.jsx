@@ -11,69 +11,95 @@ import {
 } from "react-icons/bs";
 import { BiWallet } from "react-icons/bi";
 
+import { NavLink } from "react-router-dom";
+
 import "../assets/css/card.css";
 
 import eth from "../assets/img/eth.svg";
+import { useMemo } from "react";
+import { useRef } from "react";
 
 const nfts = [
   {
+    id: 1,
     name: "Richard Hendricks",
     url: "https://i.seadn.io/gae/3KzAPAl-ZVFo22TJaZzqk_Xg0xyo-4ACPnv6B1dugHNY5I_hWMyBX2yb-sPZZYXP03XB-Os33Hi-l_gJUNwtiovGdhWWxrCLdJQESg?auto=format&w=512",
     collection: "ABC(abracadabra)",
     price: 0.12435,
     priceUsd: 244,
+    location: `nft/1`,
   },
   {
+    id: 2,
     name: "Erlich Bachman",
     url: "https://img.seadn.io/files/2442ae829d70c733402b03b0f2e342da.png?auto=format&fit=max&w=384",
     collection: "Kitaro World",
     price: 0.1342435,
     priceUsd: 244,
+    location: `nft/2`,
   },
   {
+    id: 3,
     name: "Jack Windsor",
     url: "https://i.seadn.io/gae/lIB86C3oSEbbFUhqYKIXzcRQTS5udbPYMPKfnuKOE3OIP7QOH3-n92SY7YWgzgYApnHrVM_Al_O4nUMszDanQdzI8r8H8ZTzazxNte8?auto=format&w=512",
     collection: "EmoHeads",
     price: 1.12435,
     priceUsd: 244,
+    location: `nft/3`,
   },
 
   {
+    id: 4,
     name: "Harry III",
     url: "https://i.seadn.io/gae/UeE6ZJlBMk6tk7BvT4N0Ongq8mArIh1XLhxR50BPAaF4PpMBelnFklTw5A3hq7szrdhtHcQ4d6s_T0Zu3KyPfar3Gxv1kOa0mK9-Wg?auto=format&w=512",
     collection: "EmoHeads",
     price: 6.535,
     priceUsd: 244,
+    location: `nft/4`,
   },
 
   {
+    id: 5,
     name: "Mike Douglas",
     url: "https://img.seadn.io/files/46cc8e402e925e66cc0c293439c88340.png?auto=format&fit=max&w=384",
     collection: "Kitaro World",
     price: 0.562435,
     priceUsd: 244,
+    location: `nft/5`,
   },
 ];
 
 export const CardStack = () => {
+  const [currentIndex, setCurrentIndex] = useState(nfts.length - 1);
   const [lastDirection, setLastDirection] = useState();
+  // used for outOfFrame closure
+  const currentIndexRef = useRef(currentIndex);
 
-  const swiped = (direction, nameToDelete) => {
-    console.log("removing: " + nameToDelete);
+  const childRefs = useMemo(
+    () =>
+      Array(nfts.length)
+        .fill(0)
+        .map((i) => React.createRef()),
+    []
+  );
+
+  console.log("lastDirection :>> ", lastDirection);
+
+  const updateCurrentIndex = (val) => {
+    setCurrentIndex(val);
+    currentIndexRef.current = val;
+  };
+
+  const canSwipe = currentIndex >= 0;
+
+  const swiped = (direction, nameToDelete, index) => {
     setLastDirection(direction);
+    updateCurrentIndex(index - 1);
   };
 
-  const onSwipe = () => {};
-
-  const outOfFrame = (name) => {
-    console.log(name + " left the screen!");
-  };
-
-  const expand = () => {
-    const card = document.getElementById("card");
-    card.classList.contains("expandedCard")
-      ? card.classList.remove("expandedCard")
-      : card.classList.add("expandedCard");
+  const outOfFrame = (name, idx) => {
+    console.log(`${name} (${idx}) left the screen!`, currentIndexRef.current);
+    currentIndexRef.current >= idx && childRefs[idx].current.restoreCard();
   };
 
   return (
@@ -88,9 +114,6 @@ export const CardStack = () => {
           <div
             id="card"
             className="flex flex-col items-center rounded-2xl relative bg-white mb-4 sm:w-[300px]"
-            onClick={() => {
-              expand();
-            }}
           >
             <div className="relative">
               <img
@@ -98,30 +121,12 @@ export const CardStack = () => {
                 alt=""
                 className="object-cover w-full h-full rounded-tl-2xl rounded-tr-2xl relative shadow-md"
               />
-              <div className="w-full  items-start absolute bottom-0 left-0 p-3 mb-4">
-                <div className="flex items-center justify-between">
-                  <div className="flex gap-6">
-                    <button>
-                      <div className=" group rounded-full bg-white p-4 flex justify-center hover:bg-[#74d6a1] transition-all duration-200 ">
-                        <BsFillHandThumbsDownFill
-                          size={30}
-                          className="text-[#75d6a1] group-hover:text-white "
-                        />
-                      </div>
-                    </button>
-                    <button>
-                      <div className="group rounded-full bg-white p-4 flex justify-center hover:bg-[#74d6a1] transition-all duration-200">
-                        <BsFillHandThumbsUpFill
-                          size={30}
-                          className="text-[#75d6a1] group-hover:text-white "
-                        />
-                      </div>
-                    </button>
-                  </div>
-                  <button className="group flex items-center justify-between rounded-full w-full font-semibold ml-3 p-4 bg-white hover:bg-black hover:text-white transition-all duration-300 ">
+              <div className="w-[75%]  items-start absolute bottom-0 right-0 p-3 ">
+                <NavLink to={`/${nft.wallet}/` + nft.id} className="mr-6">
+                  <button className="group flex items-center justify-between rounded-full w-full font-semibold p-4 bg-white hover:bg-black hover:text-white transition-all duration-300 ">
                     View <BsArrowRight size={30} />
                   </button>
-                </div>
+                </NavLink>
               </div>
             </div>
             <button className="absolute right-0">
