@@ -102,6 +102,23 @@ export const CardStack = () => {
     currentIndexRef.current >= idx && childRefs[idx].current.restoreCard();
   };
 
+  const Expand = () => {
+    let meta = document.getElementById("meta");
+    let cardImg = document.getElementById("cardImg");
+
+
+    if (meta.classList.contains("expanded") ) {
+      meta.classList.remove("expanded");
+     
+     
+    } else {
+      meta.classList.add("expanded");
+     
+    }
+
+    console.log('click card')
+  };
+
   return (
     <div className="mt-6">
       {nfts.map((nft) => (
@@ -114,12 +131,16 @@ export const CardStack = () => {
           <div
             id="card"
             className="flex flex-col items-center rounded-2xl relative bg-white mb-4 sm:w-[300px]"
+            onClick={() => {
+              Expand();
+            }}
           >
             <div className="relative">
               <img
+                id="cardImg"
                 src={nft.url}
                 alt=""
-                className="object-cover w-full h-full rounded-tl-2xl rounded-tr-2xl relative shadow-md"
+                className="object-cover w-full h-full relative shadow-md rounded-2xl "
               />
               <div className="w-[75%]  items-start absolute bottom-0 right-0 p-3 ">
                 <NavLink to={`/${nft.wallet}/` + nft.id} className="mr-6">
@@ -140,7 +161,10 @@ export const CardStack = () => {
               {nft.name}
             </h1>
 
-            <div className="meta pt-4 flex flex-col gap-3 pl-3 pr-3 placeholder-amber-300 rounded-bl-2xl rounded-br-2xl w-full shadow-md">
+            <div
+              id="meta"
+              className="  flex flex-col gap-3 pl-3 pr-3 rounded-bl-2xl rounded-br-2xl w-full h-0 overflow-hidden transition-all duration-300 ease-in-out "
+            >
               <p className="bold text-2xl">{nft.name}</p>
 
               <div className="flex items-center">

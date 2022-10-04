@@ -9,6 +9,7 @@ export const NavItem = (props) => {
     borderRadius:"9999px",
     padding:"3vw",
     marginRight: "5vw",
+    
   };
 
   const iconDefaultStyle = {
@@ -22,7 +23,7 @@ export const NavItem = (props) => {
       className={({ isActive }) =>
         isActive ? "active-navItem" : "inactive-navItem"
       }
-    >
+    > 
       <i style={iconDefaultStyle}>{props.item_icon}</i>
       <p>{props.item_menu}</p>
     </NavLink>
